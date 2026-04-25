@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言 & 聊天室</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href=" https://fonts.googleapis.com">
+    <link rel="preconnect" href=" https://fonts.gstatic.com" crossorigin>
+    <link href=" https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- 用户名弹窗 -->
+    <div class="modal-overlay" id="usernameModal" style="display: flex;">
+        <div class="modal-dialog">
+            <h3>👋 欢迎来到留言聊天室</h3>
+            <p>请输入您的昵称以开始使用</p>
+            <input type="text" class="modal-input" id="usernameInput" placeholder="输入昵称..." maxlength="20" autocomplete="off">
+            <button class="modal-btn" id="usernameConfirmBtn">✨ 开始使用</button>
+        </div>
+    </div>
+
+    <!-- 主应用容器 -->
+    <div class="app-container" id="appContainer">
+        <!-- 头部 -->
+        <div class="app-header">
+            <div class="header-content">
+                <div class="app-logo">
+                    <div class="logo-icon">💬</div>
+                    <div>
+                        <div class="app-title">留言 · 聊天室</div>
+                        <div class="app-subtitle">Message & Chat Room</div>
+                    </div>
+                </div>
+                <div class="user-info-header" id="userInfoHeader" title="点击修改昵称">
+                    <div class="user-avatar-small" id="headerAvatar">?</div>
+                    <span id="headerUsername">用户</span>
+                    <span style="font-size:0.7rem;">▾</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab切换 -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="guestbook">
+                <span class="tab-icon">📝</span> 留言板
+            </button>
+            <button class="tab-btn" data-tab="chatroom">
+                <span class="tab-icon">💬</span> 聊天室
+                <span class="tab-badge" id="onlineBadge" style="display:none;">在线</span>
+            </button>
+        </div>
+
+        <!-- 内容区 -->
+        <div class="tab-content-wrapper">
+            <!-- 留言板面板 -->
+            <div class="tab-panel active" id="panel-guestbook">
+                <div class="messages-container" id="guestbookMessages">
+                    <div class="empty-state" id="guestbookEmpty">
+                        <div class="empty-icon">📝</div>
+                        <p>还没有留言</p>
+                        <span>成为第一个留言的人吧！</span>
+                    </div>
+                </div>
+                <div style="text-align:center;padding:4px;" id="guestbookLoadMoreWrap" hidden>
+                    <button class="load-more-btn" id="loadMoreGuestbook">加载更多留言</button>
+                </div>
+                <div class="input-area" id="guestbookInputArea">
+                    <div class="input-wrapper">
+                        <textarea id="guestbookTextarea" placeholder="写下你的留言..." rows="1" maxlength="500"></textarea>
+                    </div>
+                    <button class="send-btn" id="guestbookSendBtn">📨 发布</button>
+                </div>
+            </div>
+
+            <!-- 聊天室面板 -->
+            <div class="tab-panel" id="panel-chatroom">
+                <div class="messages-container" id="chatMessages">
+                    <div class="empty-state" id="chatEmpty">
+                        <div class="empty-icon">💬</div>
+                        <p>聊天室空空如也</p>
+                        <span>发送第一条消息吧！</span>
+                    </div>
+                </div>
+                <div class="input-area" id="chatInputArea">
+                    <div class="input-wrapper">
+                        <textarea id="chatTextarea" placeholder="输入聊天消息... (Enter发送)" rows="1" maxlength="500"></textarea>
+                    </div>
+                    <button class="send-btn" id="chatSendBtn">🚀 发送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.IO CDN -->
+    <script src=" https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <!-- 应用主逻辑 -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
